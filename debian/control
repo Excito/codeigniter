@@ -1,0 +1,38 @@
+Source: codeigniter
+Section: php
+Priority: extra
+Maintainer: Carl Fürstenberg <carl@excito.com>
+Build-Depends: debhelper (>= 7.2)
+Standards-Version: 3.8.4
+Homepage: http://codeigniter.com/
+
+Package: libphp-codeigniter
+Depends: ${misc:Depends}
+Architecture: all
+Recommends: phpapi-20060613+lfs
+Description: Web application framework
+ CodeIgniter is a PHP framework with a very small footprint, 
+ built for PHP coders who need a simple and elegant toolkit 
+ to create full-featured web applications. 
+
+Package: libphp-codeigniter-doc
+Depends: ${misc:Depends}
+Section: doc
+Architecture: all
+Description: Web application framework - documentation
+ CodeIgniter is a PHP framework with a very small footprint, 
+ built for PHP coders who need a simple and elegant toolkit 
+ to create full-featured web applications.
+ .
+ This package provides the documentation for codeigniter
+
+Package: libphp-codeigniter-dev
+Depends: ${misc:Depends}, debhelper
+Section: libdevel
+Architecture: all
+Description: Web application framework - developement tools
+ CodeIgniter is a PHP framework with a very small footprint, 
+ built for PHP coders who need a simple and elegant toolkit 
+ to create full-featured web applications.
+ .
+ This package provides dh_codeigniter to simplify integration of codeigniter.

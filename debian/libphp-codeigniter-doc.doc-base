@@ -1,0 +1,10 @@
+Document: codeigniter-userguide
+Title: CodeIgniter User Guide
+Author: Ellislab, Inc.
+Abstract: CodeIgniter is an Application Development Framework
+ - a toolkit - for people who build web sites using PHP.
+Section: Programming/PHP
+
+Format: HTML
+Index: /usr/share/doc/libphp-codeigniter-doc/user_guide/index.html
+Files: /usr/share/doc/libphp-codeigniter-doc/user_guide/*.html

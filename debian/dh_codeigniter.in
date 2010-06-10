@@ -1,0 +1,132 @@
+#!/usr/bin/perl -w
+
+=head1 NAME
+
+=encoding utf8
+
+dh_codeigniter - setup applications using the CodeIngiter framework
+
+=cut
+
+use strict;
+use Debian::Debhelper::Dh_Lib;
+
+=head1 SYNOPSIS
+
+B<dh_codeigniter> [S<I<debhelper options>>] [B<--destdir=>I<destdir>] [B<-l> I<index location>] [B<-m> I<config location>] [B<-x>]
+
+=head1 DESCRIPTION
+
+dh_codeigniter is a debhelper program that manages applications using the CodeIgniter framework.
+Its purpose is to setup the index.php file pointing to an application, and to relocate the configuration to 
+space under /etc.
+
+By default, it assumes that the application has been installed in /usr/share/package, or if exists,
+/usr/share/package/application.
+
+Without any other options, it will create the index file at
+I</usr/share/package/index.php>. Also it will move the configuration files at I</etc/codeigniter/package> to /etc.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--destdir=>I<application dir>
+
+The location where the application is assumed to be installed, defaults to /usr/share/package.
+
+=item B<-l> I<index location>
+
+The target file name for the index file, defaults to /usr/share/package/index.php.
+
+=item B<-m> I<config location>
+
+The install target for the configuration files, this is the files contained in the
+application/config directory. defaults to /etc/codeigniter/package.
+
+=item B<-x>
+
+Do not install the configuration under /etc, and thus keep it in the application folder, will override the -m parameter.
+
+=back
+
+=head1 EXAMPLES
+
+ dh_codeigniter --destdir=/usr/share/app -m /etc/myapp
+
+Creates the index file at /ust/share/app/index.php, moves the configuration to /etc/myapp and creates an symlink in it's place.
+
+=cut
+
+init(options => {
+	"destdir:s" => \$dh{DESTDIR},
+	"l:s" => \$dh{L_PARAMS},
+	"m:s" => \$dh{M_PARAMS},
+	"x" => \$dh{INCLUDE_CONFFILES}
+});
+
+my $codeigniter_path = "/usr/share/codeigniter";
+
+foreach my $package (@{$dh{DOPACKAGES}}) {
+	my $tmp=tmpdir($package);
+
+	# find the application dir
+	my $applicationdir;
+	unless( $dh{DESTDIR} ) {
+		if( -d "$tmp/usr/share/$package/application" ) {
+			$applicationdir = "usr/share/$package/application";
+		} else {
+			$applicationdir = "usr/share/$package"
+		}
+	} else {
+		$applicationdir = $dh{DESTDIR};
+	}
+
+	unless( -d "$tmp/$applicationdir" ) {
+		#ignore this, and bail out
+		addsubstvar($package, "misc:Depends", 'libphp-codeigniter', undef, 1);
+		exit 0;
+	}
+
+	# add an dependices
+
+	# ugly hack
+	isnative($package);
+	my $version = $dh{VERSION};
+
+	addsubstvar($package, "misc:Depends", 'libphp-codeigniter', ">= €VERSION€");
+
+	# assume some directories
+	
+	my $destdir = $dh{DESTDIR} || "usr/share/$package";
+	my $index_file = $dh{L_PARAMS} || "$destdir/index.php";
+	my $config_dir = $dh{M_PARAMS} || "etc/codeigniter/$package";
+
+	# setup all initial directories
+	doit( "install", "-d", "$tmp/$destdir" );
+	doit( "install", "-d", "$tmp/".dirname ( $config_dir ) ) unless $dh{INCLUDE_CONFFILES};
+	doit( "install", "-d", "$tmp/".dirname ( $index_file ) );
+
+	# install the index.php file, use destdir as application path
+	# make sure it only have one beginning slash
+	my $replacement = $applicationdir;
+	$replacement =~ s/^\///g;
+	$replacement = quotemeta $replacement;
+	complex_doit( "perl -pe 's/#APPLICATION#/\\/$replacement/' < $codeigniter_path/index.php.in > $tmp/$index_file" );
+
+	if( -d "$tmp/$applicationdir/config" and not $dh{INCLUDE_CONFFILES} ) {
+		# move the config
+		doit( "mv", "$tmp/$applicationdir/config", "$tmp/$config_dir" );
+		doit( "ln", "-sf", "/$config_dir", "$tmp/$applicationdir/config" );
+	}
+}
+
+=head1 SEE ALSO
+
+L<debhelper(7)>
+
+=head1 AUTHOR
+
+Carl Fürstenberg <azatoth@gmail.com>
+
+=cut
