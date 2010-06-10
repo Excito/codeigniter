@@ -1,0 +1,38 @@
+#!/usr/bin/make -f
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+DEB_VERSION="$(shell dpkg-parsechangelog | awk '/^Version:/ {print $$NF}')"
+
+%:
+	dh  $@
+
+override_dh_install:
+	mkdir debian/tmp
+	DEB_VERSION="$(DEB_VERSION)" perl -p -e 's/€VERSION€/$$ENV{DEB_VERSION}/' debian/dh_codeigniter.in > debian/tmp/dh_codeigniter
+	pod2man --utf8 --center=CodeIgniter --release="$(DEB_VERSION)" debian/tmp/dh_codeigniter debian/tmp/dh_codeigniter.1
+	dh_install
+	install -D debian/debhelper_sequence_addon.pm debian/libphp-codeigniter-dev/usr/share/perl5/Debian/Debhelper/Sequence/codeigniter.pm
+	# remove the application dir
+	rm -rf debian/libphp-codeigniter/usr/share/codeigniter/system/application;
+	# remove useless index.html files
+	find debian/libphp-codeigniter/usr/share/codeigniter/system -name index.html -exec rm -f '{}' ';'
+
+# Use override_dh_* targets to customize this.
+# ---------------------------------------------------
+# Followings are the old debian/rules
+#
+# #!/usr/bin/make -f
+# 
+# include /usr/share/cdbs/1/rules/debhelper.mk
+# 
+# configure/libphp-codeigniter-dev::
+# 	mkdir debian/tmp
+# 	DEB_VERSION="$(DEB_VERSION)" perl -p -e 's/€VERSION€/$$ENV{DEB_VERSION}/' debian/dh_codeigniter.in > debian/tmp/dh_codeigniter
+# 	pod2man --utf8 --center=CodeIgniter --release="$(DEB_VERSION)" debian/tmp/dh_codeigniter debian/tmp/dh_codeigniter.1
+# 
+# binary-post-install/libphp-codeigniter::
+# 	# remove the application dir
+# 	rm -rf debian/libphp-codeigniter/usr/share/codeigniter/system/application;
+# 	# remove useless index.html files
+# 	find debian/libphp-codeigniter/usr/share/codeigniter/system -name index.html -exec rm -f '{}' ';'

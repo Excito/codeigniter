@@ -1,0 +1,2 @@
+debian/tmp/dh_codeigniter /usr/bin
+debian/index.php.in /usr/share/codeigniter

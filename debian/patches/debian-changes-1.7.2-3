@@ -1,0 +1,42 @@
+Description: Upstream changes introduced in version 1.7.2-3
+ This patch has been created by dpkg-source during the package build.
+ Here's the last changelog entry, hopefully it gives details on why
+ those changes were made:
+ .
+ codeigniter (1.7.2-3) claire; urgency=low
+ .
+   * update index.php template to correctify FCPATH
+ .
+ The person named in the Author field signed this changelog entry.
+Author: Carl Fürstenberg <carl@excito.com>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- codeigniter-1.7.2.orig/system/libraries/Exceptions.php
++++ codeigniter-1.7.2/system/libraries/Exceptions.php
+@@ -115,7 +115,7 @@ class CI_Exceptions {
+ 	 */
+ 	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
+ 	{
+-		set_status_header($status_code);
++		//set_status_header($status_code);
+ 		
+ 		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
+ 
+@@ -171,4 +171,4 @@ class CI_Exceptions {
+ // END Exceptions Class
+ 
+ /* End of file Exceptions.php */
+-/* Location: ./system/libraries/Exceptions.php */
+\ No newline at end of file
++/* Location: ./system/libraries/Exceptions.php */

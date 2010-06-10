@@ -1,0 +1,13 @@
+codeigniter for Debian
+----------------------
+
+The upstream recommendation for utilizing multiple application on a signle codeigniter
+installation is to place them in sub directories under application, and create individual
+index.php files for each of them; This approach would result in that any codeigniter
+application would be enabled per default on install.
+
+Instead the installation is rather static, and packages in need to codeigniter should place it's own
+appllication in an system/application directory, and then use dh_codeignitor on that directory,
+which will create all required symlinks to codeignitor.
+
+ -- Carl Fürstenberg <azatoth@gmail.com>  Tue, 28 Oct 2008 15:32:42 +0100
