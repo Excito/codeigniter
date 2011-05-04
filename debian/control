@@ -3,13 +3,13 @@ Section: php
 Priority: extra
 Maintainer: Carl Fürstenberg <carl@excito.com>
 Build-Depends: debhelper (>= 7.2)
-Standards-Version: 3.8.4
+Standards-Version: 3.9.1
 Homepage: http://codeigniter.com/
 
 Package: libphp-codeigniter
 Depends: ${misc:Depends}
 Architecture: all
-Recommends: phpapi-20060613+lfs
+Recommends: phpapi-20090626+lfs
 Description: Web application framework
  CodeIgniter is a PHP framework with a very small footprint, 
  built for PHP coders who need a simple and elegant toolkit 
