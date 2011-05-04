@@ -1,13 +1,14 @@
 <?php
 error_reporting(E_ALL);
 
-$system_folder = "/usr/share/codeigniter/system";
+$system_path = "/usr/share/codeigniter/system";
 $application_folder = "#APPLICATION#";
 
 define('EXT', '.php');
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 define('FCPATH', str_replace(SELF, '', __FILE__));
-define('BASEPATH', $system_folder.'/');
+define('BASEPATH', $system_path.'/');
 define('APPPATH', $application_folder.'/');
+define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 
-require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
+require_once BASEPATH.'core/CodeIgniter'.EXT;
