@@ -1,1 +1,2 @@
-debian-changes-1.7.2-3
+0001-Do-not-set-status-header-on-error.patch
+0002-remove-deprecated-functions-from-error-reporting.patch

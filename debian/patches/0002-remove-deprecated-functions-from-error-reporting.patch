@@ -1,0 +1,29 @@
+From: =?UTF-8?q?Carl=20F=C3=BCrstenberg?= <carl@excito.com>
+Date: Tue, 12 Jul 2011 14:16:58 +0200
+Subject: remove deprecated functions from error reporting
+
+---
+ index.php |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/index.php b/index.php
+index d60e79f..b37854b 100644
+--- a/index.php
++++ b/index.php
+@@ -9,7 +9,7 @@
+ | For more info visit:  http://www.php.net/error_reporting
+ |
+ */
+-	error_reporting(E_ALL);
++	error_reporting(E_ALL ^ E_DEPRECATED);
+
+ /*
+ |---------------------------------------------------------------
+@@ -115,4 +115,4 @@ else
+ require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
+
+ /* End of file index.php */
+-/* Location: ./index.php */
+\ No newline at end of file
++/* Location: ./index.php */
+--

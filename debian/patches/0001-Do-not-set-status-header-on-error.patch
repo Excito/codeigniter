@@ -1,0 +1,31 @@
+From: =?UTF-8?q?Carl=20F=C3=BCrstenberg?= <carl@excito.com>
+Date: Tue, 12 Jul 2011 14:20:48 +0200
+Subject: Do not set status header on error
+
+Detting status header on error can interfer with certain commands that
+want to set their own headers
+---
+ system/libraries/Exceptions.php |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/system/libraries/Exceptions.php b/system/libraries/Exceptions.php
+index 9c655a1..25fb291 100644
+--- a/system/libraries/Exceptions.php
++++ b/system/libraries/Exceptions.php
+@@ -115,7 +115,7 @@ class CI_Exceptions {
+ 	 */
+ 	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
+ 	{
+-		set_status_header($status_code);
++		//set_status_header($status_code);
+ 		
+ 		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
+ 
+@@ -171,4 +171,4 @@ class CI_Exceptions {
+ // END Exceptions Class
+ 
+ /* End of file Exceptions.php */
+-/* Location: ./system/libraries/Exceptions.php */
+\ No newline at end of file
++/* Location: ./system/libraries/Exceptions.php */
+-- 
