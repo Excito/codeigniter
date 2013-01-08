@@ -1,14 +1,31 @@
 <?php
-error_reporting(E_ALL);
+define('ENVIRONMENT', 'production');
+
+if (defined('ENVIRONMENT'))
+{
+	switch (ENVIRONMENT)
+	{
+		case 'development':
+			error_reporting(E_ALL);
+		break;
+
+		case 'testing':
+		case 'production':
+			error_reporting(0);
+		break;
+
+		default:
+			exit('The application environment is not set correctly.');
+	}
+}
 
 $system_path = "/usr/share/codeigniter/system";
 $application_folder = "#APPLICATION#";
 
-define('EXT', '.php');
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+define('BASEPATH', str_replace("\\", "/", $system_path));
 define('FCPATH', str_replace(SELF, '', __FILE__));
-define('BASEPATH', $system_path.'/');
-define('APPPATH', $application_folder.'/');
 define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
+define('APPPATH', $application_folder.'/');
 
-require_once BASEPATH.'core/CodeIgniter'.EXT;
+require_once BASEPATH.'core/CodeIgniter.php';
